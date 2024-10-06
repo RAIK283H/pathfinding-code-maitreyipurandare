@@ -30,6 +30,7 @@ for graph in graph_data:
     else:
         global_game_data.target_node.append(0)
 
+
 # Define Game Objects
 scoreboard = Scoreboard(main_batch, text_display_area)
 graph = Graph(main_batch)
@@ -83,6 +84,7 @@ def on_draw():
 
 
 def change_graph():
+    global_game_data.counter = 0
     global_game_data.current_graph_index += 1
     if global_game_data.current_graph_index >= len(graph_data):
         global_game_data.current_graph_index = 0

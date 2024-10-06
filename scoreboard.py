@@ -12,6 +12,7 @@ class Scoreboard:
     player_excess_distance_display = []
     player_path_display = []
 
+
     def __init__(self, batch, group):
         self.batch = batch
         self.group = group
@@ -20,9 +21,18 @@ class Scoreboard:
         self.number_of_stats = 5
         self.base_height_offset = 20
         self.font_size = 16
+        
         self.distance_to_exit_label = pyglet.text.Label('Direct Distance To Exit : 0', x=0, y=0,
                                                         font_name='Arial', font_size=self.font_size, batch=batch, group=group)
         self.distance_to_exit = 0
+
+        # scoreboard feature that i created
+        self.moves_made_2_label = pyglet.text.Label('Moves Made By Player 2: 0', x=900, y=50,
+                                                        font_name='Arial', font_size=self.font_size, batch=batch, group=group)
+        self.moves_made_1_label = pyglet.text.Label('Moves Made By Player 1: 0', x=900, y=100,
+                                                        font_name='Arial', font_size=self.font_size, batch=batch, group=group) 
+                                        
+        
         for index, player in enumerate(config_data.player_data):
             player_name_label = pyglet.text.Label(str(index + 1) + " " + player[0],
                                                   x=0,
@@ -52,6 +62,8 @@ class Scoreboard:
                                    font_size=self.font_size, batch=batch, group=group, color=player[2][colors.TEXT_INDEX])
             self.player_path_display.append(
                 (path_label, player))
+            
+            
 
     def update_elements_locations(self):
         self.distance_to_exit_label.x = config_data.window_width - self.stat_width
@@ -81,6 +93,10 @@ class Scoreboard:
         self.distance_to_exit = math.sqrt(pow(start_x - end_x, 2) + pow(start_y - end_y, 2))
         self.distance_to_exit_label.text = 'Direct Distance To Exit : ' + "{0:.0f}".format(self.distance_to_exit)
 
+    def update_moves_made(self):
+        self.moves_made_2_label.text = "Moves made by Player 2: " + str(global_game_data.counter)
+        self.moves_made_1_label.text = "Moves made by Player 1: " + str(len(graph_data.test_path[global_game_data.current_graph_index]))
+     
     def wrap_text(self, input):
         wrapped_text = (input[:44] + ', ...]') if len(input) > 44 else input
         return wrapped_text
@@ -99,5 +115,7 @@ class Scoreboard:
     def update_scoreboard(self):
         self.update_elements_locations()
         self.update_paths()
+        self.update_moves_made()
         self.update_distance_to_exit()
         self.update_distance_traveled()
+        
