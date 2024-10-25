@@ -25,13 +25,19 @@ class Scoreboard:
         self.distance_to_exit_label = pyglet.text.Label('Direct Distance To Exit : 0', x=0, y=0,
                                                         font_name='Arial', font_size=self.font_size, batch=batch, group=group)
         self.distance_to_exit = 0
-
-        # scoreboard feature that i created
-        self.moves_made_2_label = pyglet.text.Label('Moves Made By Player 2: 0', x=900, y=50,
+        self.winner_label = pyglet.text.Label('Winner : ', x=10, y=100,
                                                         font_name='Arial', font_size=self.font_size, batch=batch, group=group)
-        self.moves_made_1_label = pyglet.text.Label('Moves Made By Player 1: 0', x=900, y=100,
-                                                        font_name='Arial', font_size=self.font_size, batch=batch, group=group) 
-                                        
+        
+        # scoreboard feature that i created
+        self.moves_made_2_label = pyglet.text.Label('Moves Made By Player 2: 0', x=400, y=50,
+                                                        font_name='Arial', font_size=10, batch=batch, group=group)
+        self.moves_made_1_label = pyglet.text.Label('Moves Made By Player 1: 0', x=400, y=100,
+                                                        font_name='Arial', font_size=10, batch=batch, group=group) 
+        self.moves_made_3_label = pyglet.text.Label('Moves Made By Player 3: 0', x=600, y=100,
+                                                        font_name='Arial', font_size=10, batch=batch, group=group)
+        self.moves_made_4_label = pyglet.text.Label('Moves Made By Player 4: 0', x=600, y=50,
+                                                        font_name='Arial', font_size=10, batch=batch, group=group) 
+                                            
         
         for index, player in enumerate(config_data.player_data):
             player_name_label = pyglet.text.Label(str(index + 1) + " " + player[0],
@@ -63,7 +69,7 @@ class Scoreboard:
             self.player_path_display.append(
                 (path_label, player))
             
-            
+
 
     def update_elements_locations(self):
         self.distance_to_exit_label.x = config_data.window_width - self.stat_width
@@ -96,7 +102,21 @@ class Scoreboard:
     def update_moves_made(self):
         self.moves_made_2_label.text = "Moves made by Player 2: " + str(global_game_data.counter)
         self.moves_made_1_label.text = "Moves made by Player 1: " + str(len(graph_data.test_path[global_game_data.current_graph_index]))
-     
+        self.moves_made_3_label.text = "Moves made by Player 3: " + str(global_game_data.dfs_counter)
+        self.moves_made_4_label.text = "Moves made by Player 4: " + str(global_game_data.bfs_counter)
+        
+    
+    def update_winner(self):
+        winner = min(global_game_data.counter, global_game_data.dfs_counter, global_game_data.bfs_counter)
+        winnerStr = ""
+        if winner == global_game_data.counter:
+            winnerStr = "Player 2 (Random)"
+        elif winner == global_game_data.dfs_counter:
+            winnerStr = "Player 3 (DFS)" 
+        elif winner == global_game_data.bfs_counter:
+            winnerStr = "Player 4 (BFS)"   
+        self.winner_label.text = "Winner: " + winnerStr
+
     def wrap_text(self, input):
         wrapped_text = (input[:44] + ', ...]') if len(input) > 44 else input
         return wrapped_text
@@ -118,4 +138,5 @@ class Scoreboard:
         self.update_moves_made()
         self.update_distance_to_exit()
         self.update_distance_traveled()
+        self.update_winner()
         
