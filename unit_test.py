@@ -68,6 +68,13 @@ class TestPathFinding(unittest.TestCase):
         h_list = (permutation.get_Hamiltonian_List((permutation.SJT(len(graph) - 1)), graph))
         self.assertEqual(h_list, expected, "did not get the hamiltonian cycles correctly")
     
+    def test_Hamiltonian_Not_False_On_Given_Graph(self):
+        graph = graph_data.graph_data[1]
+        
+        expected = [[1, 2], [2, 1]] 
+        h_list = (permutation.get_Hamiltonian_List((permutation.SJT(len(graph) - 1)), graph))
+        self.assertEqual(h_list, expected, "did not get the hamiltonian cycles correctly")
+    
     def test_Hamiltonian_False(self):
         graph = [
             [(0, 0), [1, 2, 3, 4]],         
@@ -76,6 +83,11 @@ class TestPathFinding(unittest.TestCase):
             [(200, -500), [0]],    
             [(200, 100), [0]], 
             ]
+        actual = permutation.get_Hamiltonian_List((permutation.SJT(len(graph) - 1)), graph)
+        self.assertFalse(actual, "should be false (no cycles) but was not")
+
+    def test_Hamiltonian_False_on_Given_graph(self):
+        graph = graph_data.graph_data[0]
         actual = permutation.get_Hamiltonian_List((permutation.SJT(len(graph) - 1)), graph)
         self.assertFalse(actual, "should be false (no cycles) but was not")
 
