@@ -88,11 +88,15 @@ def get_dfs_path():
     frontier = [target]
 
     while frontier:
+        #assert current in graph_data.graph_data[global_game_data.current_graph_index][target][1], "Not an adjacent move!"
+        
         current = frontier.pop()
         if current == end_node:
             # path.append(current)
             break
-
+        
+        
+        
         neighbors = graph_data.graph_data[global_game_data.current_graph_index][current][1]
 
         for neighbor in neighbors:

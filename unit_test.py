@@ -4,6 +4,7 @@ import graph_data
 from pathing import get_bfs_path
 from pathing import get_dfs_path 
 import global_game_data
+import permutation
 
 
 class TestPathFinding(unittest.TestCase):
@@ -51,6 +52,37 @@ class TestPathFinding(unittest.TestCase):
         expected_path = [0, 1, 0, 1, 2]
         actual_path = get_bfs_path()
         self.assertNotEqual(expected_path, actual_path, "bfs path is not correct")
+
+
+    def test_Hamiltonian_Not_False(self):
+        graph = [
+            [(0, 0), [1, 5]],         
+            [(50, -200), [0, 2, 3, 4]],  
+            [(50, -300), [1, 3]],     
+            [(200, -500), [1, 2, 4]],    
+            [(200, 100), [0, 3, 1]], 
+            [(300, 100), [0, 4]]
+            ]
+        
+        expected = [[1, 2, 3, 4], [4, 1, 2, 3], [1, 4, 3, 2], [3, 4, 1, 2], [4, 3, 2, 1], [3, 2, 1, 4], [2, 3, 4, 1], [2, 1, 4, 3]]
+        h_list = (permutation.get_Hamiltonian_List((permutation.SJT(len(graph) - 1)), graph))
+        self.assertEqual(h_list, expected, "did not get the hamiltonian cycles correctly")
+    
+    def test_Hamiltonian_False(self):
+        graph = [
+            [(0, 0), [1, 2, 3, 4]],         
+            [(50, -200), [0]],  
+            [(50, -300), [0]],     
+            [(200, -500), [0]],    
+            [(200, 100), [0]], 
+            ]
+        actual = permutation.get_Hamiltonian_List((permutation.SJT(len(graph) - 1)), graph)
+        self.assertFalse(actual, "should be false (no cycles) but was not")
+
+    def test_permutationsSJT(self):
+        actual = permutation.SJT(3)
+        expected = [[1, 2], [2, 1]]
+        self.assertEqual(actual, expected, "did not get all the permutations correctly")
 
 
 if __name__ == '__main__':
