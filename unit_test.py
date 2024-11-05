@@ -91,9 +91,14 @@ class TestPathFinding(unittest.TestCase):
         actual = permutation.get_Hamiltonian_List((permutation.SJT(len(graph) - 1)), graph)
         self.assertFalse(actual, "should be false (no cycles) but was not")
 
-    def test_permutationsSJT(self):
+    def test_permutationsSJT_3(self):
         actual = permutation.SJT(3)
         expected = [[1, 2], [2, 1]]
+        self.assertEqual(actual, expected, "did not get all the permutations correctly")
+
+    def test_permutationsSJT_5(self):
+        actual = len(permutation.SJT(5))
+        expected = 24
         self.assertEqual(actual, expected, "did not get all the permutations correctly")
 
 

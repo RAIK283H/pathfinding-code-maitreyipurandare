@@ -1,5 +1,8 @@
 import graph_data
 
+
+# if n is the number, this function gets permutations for all the numbers from 1 to n-1
+# so if you want to permute 5, it will give all permutations of 1-4 (i.e. 24 of them)
 def SJT(n):
     nodes = list(range(1, n))
 
