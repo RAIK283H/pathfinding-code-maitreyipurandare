@@ -16,11 +16,11 @@ class Scoreboard:
     def __init__(self, batch, group):
         self.batch = batch
         self.group = group
-        self.stat_height = 32
-        self.stat_width = 400
+        self.stat_height = 24
+        self.stat_width = 300
         self.number_of_stats = 5
-        self.base_height_offset = 20
-        self.font_size = 16
+        self.base_height_offset = 30
+        self.font_size = 12
         
         self.distance_to_exit_label = pyglet.text.Label('Direct Distance To Exit : 0', x=0, y=0,
                                                         font_name='Arial', font_size=self.font_size, batch=batch, group=group)
@@ -29,16 +29,18 @@ class Scoreboard:
                                                         font_name='Arial', font_size=self.font_size, batch=batch, group=group)
         
         # scoreboard feature that i created
-        self.moves_made_2_label = pyglet.text.Label('Moves Made By Player 2: 0', x=400, y=50,
+        self.moves_made_2_label = pyglet.text.Label('Moves Made By Player 2: 0', x=400, y=75,
                                                         font_name='Arial', font_size=10, batch=batch, group=group)
         self.moves_made_1_label = pyglet.text.Label('Moves Made By Player 1: 0', x=400, y=100,
                                                         font_name='Arial', font_size=10, batch=batch, group=group) 
-        self.moves_made_3_label = pyglet.text.Label('Moves Made By Player 3: 0', x=600, y=100,
+        self.moves_made_3_label = pyglet.text.Label('Moves Made By Player 3: 0', x=400, y=50,
                                                         font_name='Arial', font_size=10, batch=batch, group=group)
-        self.moves_made_4_label = pyglet.text.Label('Moves Made By Player 4: 0', x=600, y=50,
+        self.moves_made_4_label = pyglet.text.Label('Moves Made By Player 4: 0', x=600, y=75,
                                                         font_name='Arial', font_size=10, batch=batch, group=group) 
                                             
-        
+        self.moves_made_5_label = pyglet.text.Label('Moves Made By Player 5: 0', x=600, y=50,
+                                                        font_name='Arial', font_size=10, batch=batch, group=group) 
+                                            
         for index, player in enumerate(config_data.player_data):
             player_name_label = pyglet.text.Label(str(index + 1) + " " + player[0],
                                                   x=0,
@@ -104,6 +106,7 @@ class Scoreboard:
         self.moves_made_1_label.text = "Moves made by Player 1: " + str(len(graph_data.test_path[global_game_data.current_graph_index]))
         self.moves_made_3_label.text = "Moves made by Player 3: " + str(global_game_data.dfs_counter)
         self.moves_made_4_label.text = "Moves made by Player 4: " + str(global_game_data.bfs_counter)
+        self.moves_made_5_label.text = "Moves made by Player 5: " + str(global_game_data.dijkstra_counter)
         
     
     def update_winner(self):
@@ -115,6 +118,8 @@ class Scoreboard:
             winnerStr = "Player 3 (DFS)" 
         elif winner == global_game_data.bfs_counter:
             winnerStr = "Player 4 (BFS)"   
+        elif winner == global_game_data.dijkstra_counter:
+            winnerStr = "Player 5 (Dijkstra)"
         self.winner_label.text = "Winner: " + winnerStr
 
     def wrap_text(self, input):

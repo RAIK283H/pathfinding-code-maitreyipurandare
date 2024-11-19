@@ -3,6 +3,7 @@ import unittest
 import graph_data
 from pathing import get_bfs_path
 from pathing import get_dfs_path 
+from pathing import get_dijkstra_path 
 import global_game_data
 import permutation
 
@@ -30,7 +31,8 @@ class TestPathFinding(unittest.TestCase):
 
     def setUp(self):
         global_game_data.current_graph_index = 0 
-        global_game_data.target_node = [1] 
+        global_game_data.target_node = [1, 2, 14, 9, 9, 10, 9, 5, 10, 2, 3]
+
         global_game_data.graph_paths = []
 
     def test_DFS_correct_path(self):
@@ -100,6 +102,32 @@ class TestPathFinding(unittest.TestCase):
         actual = len(permutation.SJT(5))
         expected = 24
         self.assertEqual(actual, expected, "did not get all the permutations correctly")
+
+    def test_dijkstra_correct_path(self):
+        expected_path = [0, 1, 2]
+        actual_path = get_dijkstra_path()
+        self.assertEqual(expected_path, actual_path, "dijkstra path is not correct")
+
+    def test_dijkstra_correct_path_2(self):
+        global_game_data.current_graph_index = 10
+
+        actual_path = get_dijkstra_path()
+        expected_path = [0, 5, 4, 3, 2, 1, 0, 5]
+        self.assertEqual(expected_path, actual_path, "dijkstra path is not correct")
+
+    def test_dijkstra_correct_path_3(self):
+        global_game_data.current_graph_index = 6
+
+        actual_path = get_dijkstra_path()
+        expected_path = [0, 1, 4, 7, 8, 9, 10]
+        self.assertEqual(expected_path, actual_path, "dijkstra path is not correct")
+
+    def test_dijkstra_incorrect_path(self):
+        global_game_data.current_graph_index = 7
+
+        actual_path = get_dijkstra_path()
+        expected_path = [0, 1, 4, 5, 7, 8, 9, 10]
+        self.assertNotEqual(expected_path, actual_path, "dijkstra path should be incorrect but is not")
 
 
 if __name__ == '__main__':

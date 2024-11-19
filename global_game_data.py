@@ -6,3 +6,4 @@ target_node = []
 counter = 0
 dfs_counter = 0
 bfs_counter = 0
+dijkstra_counter = 0

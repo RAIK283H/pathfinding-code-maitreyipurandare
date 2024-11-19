@@ -1,6 +1,9 @@
 import graph_data
 import global_game_data
 from numpy import random
+import heapq
+import Node
+import math
 
 def set_current_graph_paths():
     global_game_data.graph_paths.clear()
@@ -185,4 +188,93 @@ def get_bfs_path():
 
 
 def get_dijkstra_path():
-    return [1,2]
+    path1 = []
+    graph = graph_data.graph_data[global_game_data.current_graph_index]
+    start = 0
+    end = len(graph) - 1
+    target = global_game_data.target_node[global_game_data.current_graph_index]
+
+    priority_queue = []
+    heapq.heappush(priority_queue, Node.Node(start, 0))
+    distances = {start: 0}
+    parents = {start: None}
+    visited = set()
+
+    while priority_queue:
+        current = heapq.heappop(priority_queue)
+        current_index = current.index
+
+        if current_index not in visited:
+            visited.add(current_index)
+        else:
+            continue
+
+        if current_index == target:
+            break
+
+        neighbors = graph[current_index][1]
+
+        for neighbor in neighbors:
+            cost = getDistance(current_index, neighbor, graph)
+            new_dist = distances[current_index] + cost
+
+            if neighbor not in visited: 
+                distances[neighbor] = new_dist
+                parents[neighbor] = current_index
+                heapq.heappush(priority_queue, Node.Node(neighbor, new_dist))
+
+    current_index = target
+    while current_index is not None:
+        path1.insert(0, current_index)
+        current_index = parents.get(current_index)
+
+    priority_queue = []
+    heapq.heappush(priority_queue, Node.Node(target, 0))
+    distances = {target: 0}
+    parents = {target: None}
+    visited = set()
+
+    while priority_queue:
+        current = heapq.heappop(priority_queue)
+        current_index = current.index
+
+        if current_index not in visited:
+            visited.add(current_index)
+        else:
+            continue
+
+        if current_index == end:
+            break
+
+        neighbors = graph[current_index][1]
+
+        for neighbor in neighbors:
+            cost = getDistance(current_index, neighbor, graph)
+            new_dist = distances[current_index] + cost
+
+            if neighbor not in visited: 
+                distances[neighbor] = new_dist
+                parents[neighbor] = current_index
+                heapq.heappush(priority_queue, Node.Node(neighbor, new_dist))
+
+    path2 = []
+    current_index = end
+    while current_index is not None and current_index != target:
+        path2.insert(0, current_index)
+        current_index = parents.get(current_index)
+        
+    
+    path = path1 + path2
+    for i in range (len(path) - 1):
+        assert path[i + 1] in graph[path[i]][1], "not every pair of sequential vertices in the path is connected by an edge"
+
+    assert target in path, "target node is not in path" 
+    assert path[0] == start, "path does not start at start node"
+    assert path[len(path) - 1] == end, "path does not exit at end node"
+    global_game_data.dijkstra_counter = len(path)
+    return path
+
+def getDistance(node1, node2, graph):
+    x1, y1 = graph[node1][0]
+    x2, y2 = graph[node2][0]
+    return math.sqrt((x2-x1)**2 + (y2-y1)**2)
