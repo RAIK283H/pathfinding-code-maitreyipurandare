@@ -4,6 +4,7 @@ import graph_data
 from pathing import get_bfs_path
 from pathing import get_dfs_path 
 from pathing import get_dijkstra_path 
+import f_w
 import global_game_data
 import permutation
 
@@ -128,6 +129,24 @@ class TestPathFinding(unittest.TestCase):
         actual_path = get_dijkstra_path()
         expected_path = [0, 1, 4, 5, 7, 8, 9, 10]
         self.assertNotEqual(expected_path, actual_path, "dijkstra path should be incorrect but is not")
+
+    def test_fw_correct_path(self):
+        global_game_data.current_graph_index = 0
+        actual_path = f_w.floyd_warshall()
+        expected_path = [0, 1, 2]
+        self.assertEqual(expected_path, actual_path, "FW path should be correct but is not")
+
+    def test_fw_correct_path_2(self):
+        global_game_data.current_graph_index = 1
+        actual_path = f_w.floyd_warshall()
+        expected_path = [0, 1, 2, 3]
+        self.assertEqual(expected_path, actual_path, "FW path should be correct but is not")
+
+    def test_fw_incorrect_path(self):
+        global_game_data.current_graph_index = 1
+        actual_path = f_w.floyd_warshall()
+        expected_path = [0, 1, 2, 1, 3]
+        self.assertNotEqual(expected_path, actual_path, "FW path should be incorrect but is not")
 
 
 if __name__ == '__main__':

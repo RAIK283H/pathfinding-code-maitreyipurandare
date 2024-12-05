@@ -106,7 +106,7 @@ class Scoreboard:
         self.moves_made_1_label.text = "Moves made by Player 1: " + str(len(graph_data.test_path[global_game_data.current_graph_index]))
         self.moves_made_3_label.text = "Moves made by Player 3: " + str(global_game_data.dfs_counter)
         self.moves_made_4_label.text = "Moves made by Player 4: " + str(global_game_data.bfs_counter)
-        self.moves_made_5_label.text = "Moves made by Player 5: " + str(global_game_data.dijkstra_counter)
+        self.moves_made_5_label.text = "Moves made by Player 5: " + str(global_game_data.fw_counter)
         
     
     def update_winner(self):
@@ -120,6 +120,8 @@ class Scoreboard:
             winnerStr = "Player 4 (BFS)"   
         elif winner == global_game_data.dijkstra_counter:
             winnerStr = "Player 5 (Dijkstra)"
+        elif winner == global_game_data.fw_counter:
+            winnerStr = "Player 5 (Floyd Warshall)"
         self.winner_label.text = "Winner: " + winnerStr
 
     def wrap_text(self, input):

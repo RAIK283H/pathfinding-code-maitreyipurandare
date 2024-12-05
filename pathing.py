@@ -4,6 +4,7 @@ from numpy import random
 import heapq
 import Node
 import math
+import f_w
 
 def set_current_graph_paths():
     global_game_data.graph_paths.clear()
@@ -11,7 +12,9 @@ def set_current_graph_paths():
     global_game_data.graph_paths.append(get_random_path())
     global_game_data.graph_paths.append(get_dfs_path())
     global_game_data.graph_paths.append(get_bfs_path())
-    global_game_data.graph_paths.append(get_dijkstra_path())
+    #global_game_data.graph_paths.append(get_dijkstra_path())
+    global_game_data.graph_paths.append(f_w.floyd_warshall())
+
 
 
 def get_test_path():
@@ -112,8 +115,7 @@ def get_dfs_path():
     while current != False and current != target:
         path2.insert(0, current)
         current = parents[current]
-    
-    global_game_data.dfs_counter = len(path + path2)
+    global_game_data.dfs_counter = len(path + path2) - 1
     for i in range (len(path) - 1):
         assert path[i + 1] in graph_data.graph_data[global_game_data.current_graph_index][path[i]][1], "not every pair of sequential vertices in the path is connected by an edge"
 
@@ -177,7 +179,7 @@ def get_bfs_path():
         path2.insert(0, current)
         current = parents[current]
     
-    global_game_data.bfs_counter = len(path + path2)
+    global_game_data.bfs_counter = len(path + path2) - 1
     for i in range (len(path) - 1):
         assert path[i + 1] in graph_data.graph_data[global_game_data.current_graph_index][path[i]][1], "not every pair of sequential vertices in the path is connected by an edge"
 
