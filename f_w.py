@@ -53,8 +53,8 @@ def floyd_warshall():
     start_node = 0
     target_node = global_game_data.target_node[global_game_data.current_graph_index]
     path = build_path(parent, start_node, target_node)
-    exit_node = len(graph) - 1
-    path2 = build_path(parent, target_node, exit_node)
+    end_node = len(graph) - 1
+    path2 = build_path(parent, target_node, end_node)
     path2.pop(0)
     global_game_data.fw_counter = len(path + path2) - 1
     return path+path2
